@@ -1,116 +1,89 @@
-﻿// See https://aka.ms/new-console-template for more informatio Azn=0;
-
-//    string[] currency = { "USD", "RUB", "TRY" };
-//    float[] currencyvalue = { 1.700f, 0.0271f, 0.1031f };
-//    string[] commandBox = { "show recent currency rates", "find currency rate by code", "calculate amount by currency", "exit" };
-//    int indexCurrency = 0;
-//int indexcurrencyvalue = 0;
-//    int indexCommand = 0;
-//    float oneUsd = 1.700f;
-//    float oneRub = 0.0271f;
-//    float oneTry = 0.1031f;
-
-//    for (int i = 0; i < commandBox.Length; i++)
-//    {
-//        Console.WriteLine(commandBox[i]);
-//    }
-//while (true)
-//{
-
-
-//    Console.Write("Choose the command: "); string requiredCommand = Console.ReadLine();
-
-
-//    if (requiredCommand == commandBox[0])
-//    {
-//        Console.WriteLine("1 USD = " + oneUsd + " AZN");
-//        Console.WriteLine("1 RUB = " + oneRub + " AZN");
-//        Console.WriteLine("1 TRY = " + oneTry + " AZN");
-
-//    }
-//    if (requiredCommand == commandBox[1])
-//    {
-//        Console.Write("Choose the currency : "); string requiredCurrency = Console.ReadLine();
-//        if (requiredCurrency == currency[0])
-//        {
-//            Console.WriteLine(currencyvalue[0] + " AZN");
-//        }
-//        if (requiredCurrency == currency[1])
-//        {
-//            Console.WriteLine(currencyvalue[1] + " AZN");
-//        }
-//        if (requiredCurrency == currency[2])
-//        {
-//            Console.WriteLine(currencyvalue[2] + " AZN");
-//        }
-//    }    
-//}
-
-
-
-string[] commandBox = { "show recent currency rates", "find currency rate by code", "calculate amount by currency", "exit" };
-string[] currency = { "USD", "RUB", "TRY" };
-float[] currencyvalue = { 1.700f, 0.0271f, 0.1031f };
-int indexcommandbox = 0;
-int indexcurrency = 0;
-int indexcurrencyvalue = 0;
-double number = 0;
-
-    float oneUsd = 1.700f;
-    float oneRub = 0.0271f;
-    float oneTry = 0.1031f;
-
-while (true)
+﻿while (true)
 {
-
-    while (indexcommandbox < commandBox.Length)
+    Console.WriteLine();
+    Console.WriteLine("/show-recent-currency-rates");
+    Console.WriteLine("/find-currency-rate-by-code");
+    Console.WriteLine("/calculate-amount-by-currecy");
+    Console.WriteLine("/exit");
+    Console.WriteLine();
+    Console.Write("Choose the command : ");
+    string requiredCommand = Console.ReadLine();
+    string[] currency = { "USD", "EUR", "TRY" };
+    double[] currencyRate = { 1.7, 1.8161, 0.1022 };
+    if (requiredCommand == "/show-recent-currency-rates")
     {
-        Console.WriteLine(commandBox[indexcommandbox]);
-        indexcommandbox++;
-
-    }
-
-    Console.Write($"Choose the command : "); string requiredCommand = Console.ReadLine();
-    if (requiredCommand == commandBox[0])
-    {
-        Console.WriteLine("1 USD = " + oneUsd + " AZN");
-        Console.WriteLine("1 RUB = " + oneRub + " AZN");
-        Console.WriteLine("1 TRY = " + oneTry + " AZN");
-    }
-    if (requiredCommand == commandBox[1])
-    {
-        Console.Write($"Find currency : "); string requiredCureency = Console.ReadLine();
-        if (requiredCureency == currency[0])
+        for (int i = 0; i < currency.Length; i++)
         {
-            Console.WriteLine("1 USD = " + oneUsd + " AZN");
-        }
-        if (requiredCureency == currency[1])
-        {
-            Console.WriteLine("1 RUB = " + oneRub + " AZN");
-        }
-        if (requiredCureency == currency[2])
-        {
-            Console.WriteLine("1 TRY = " + oneTry + " AZN");
+            Console.WriteLine("Currently Currency : " + currency[i] + "   Currently Currency Rate : " + currencyRate[i]);
         }
     }
-
-    if (requiredCommand == commandBox[2])
+    else if (requiredCommand == "/find-currency-rate-by-code")
     {
-        Console.Write($"Enter amount : (AZN) "); double requiredAZN = Convert.ToDouble(Console.ReadLine());
-        while (number <= 1000)
+        Console.Write("Please select your Currency : ");
+        string requiredCurrency = Console.ReadLine();
+        bool isRequiredCurrency = true;
+        for (int i = 0; i < currency.Length; i++)
         {
-            if (requiredAZN == number)
+            if (requiredCurrency == currency[i])
             {
-                Console.WriteLine(0.5882* requiredAZN + " (USD)");
-                Console.WriteLine(36.9003 * requiredAZN + " (RUB)");
-                Console.WriteLine(9.6993 * requiredAZN + " (TRY)");
+                Console.WriteLine("Currently Currency : " + currency[i] + "   Currently Currency Rate : " + currencyRate[i]);
+                isRequiredCurrency = false;
             }
-            number++;
         }
-
+        if (isRequiredCurrency)
+        {
+            Console.WriteLine("Your Currency Code not found : " + requiredCurrency);
+        }
     }
-    
+    else if (requiredCommand == "/calculate-amount-by-currecy")
+    {
+        double requiredCurrencyRate = 0;
+        bool isRequiredCurrencyNotFound = true;
+        Console.Write("Please select your Currency : "); string requiredCurrency = Console.ReadLine();
+        for (int i = 0; i < currency.Length; i++)
+        {
+
+            if (requiredCurrency == currency[i])
+            {
+                requiredCurrencyRate=currencyRate[i];
+                isRequiredCurrencyNotFound=false;
+            }
+        }
+        if (isRequiredCurrencyNotFound)
+        {
+            Console.WriteLine("Currency not found : "+requiredCurrency);
+            
+        }
+        Console.Write("Please select your Amount (AZN) : "); double requiredAmount = Convert.ToDouble(Console.ReadLine());
+        if(requiredAmount >0 && requiredAmount <= 1000)
+        {
+                Console.WriteLine(requiredAmount / requiredCurrencyRate);
+        }
+        else
+        {
+            Console.WriteLine("Amount is not correct : " + requiredAmount);
+        }
+    }
+    else if (requiredCommand == "/exit")
+    {
+        Console.WriteLine("BYE-BYE");
+    }
+    else
+    {
+        Console.WriteLine("Command not found");
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
